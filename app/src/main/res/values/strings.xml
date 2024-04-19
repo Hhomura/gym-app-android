@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Gyn_app</string>
+    <string name="app_name">Gym App</string>
+    <string name="title_splash">GYM APP</string>
+    <string name="email">email</string>
+    <string name="password">senha</string>
+    <string name="btn_login">Login</string>
+    <string name="text_create_registry">Se não possui conta, crie uma clicando aqui!</string>
 </resources>

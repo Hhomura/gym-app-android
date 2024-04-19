@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:allowBackup="true"
@@ -11,10 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gyn_app"
-        tools:targetApi="31" >
+        tools:targetApi="31">
+        <activity
+            android:name=".activitys.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activitys.LoginActivity"
+            android:exported="false" />
         <activity
             android:name=".activitys.SplashScreenActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,7 +29,7 @@
         </activity>
         <activity
             android:name=".activitys.MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
