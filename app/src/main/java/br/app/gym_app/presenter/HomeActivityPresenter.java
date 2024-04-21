@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import br.app.gym_app.domain.FirebaseDomain;
 import br.app.gym_app.presenter.interfaces.IHomePresenter;
@@ -47,6 +49,11 @@ public class HomeActivityPresenter implements IHomePresenter {
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+
+                                StorageReference reference = FirebaseStorage.getInstance().
+                                        getReference("users/"+manager.getPreferences().getString("url", ""));
+                                reference.delete();
+
                                 view.onSuccess("Usuário deletado com sucesso");
                                 view.redirectionLogin();
                             }

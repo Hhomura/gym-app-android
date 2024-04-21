@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.storage.StorageReference;
+
+import br.app.gym_app.domain.FirebaseDomain;
 import br.app.gym_app.presenter.LoginActivityPresenter;
 import br.app.gym_app.view.R;
 import br.app.gym_app.view.interfaces.ILoginView;
@@ -73,4 +76,5 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         startActivity(i);
         finish();
     }
+
 }

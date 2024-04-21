@@ -82,4 +82,5 @@ public class LoginActivityPresenter implements ILoginPresenter {
         });
         return null;
     }
+
 }

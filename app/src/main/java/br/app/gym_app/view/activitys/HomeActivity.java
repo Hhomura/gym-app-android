@@ -1,6 +1,8 @@
 package br.app.gym_app.view.activitys;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,7 +16,15 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
 
 import br.app.gym_app.presenter.HomeActivityPresenter;
 import br.app.gym_app.utils.SharedPreferencesManager;
@@ -32,6 +42,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private HomeActivityPresenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +65,12 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
         navHeaderBinding.txtEmailUser.setText(mSharedPreferences.getPreferences().getString("email", ""));
         setSupportActionBar(binding.appBarHome.toolbar);
         mPresenter = new HomeActivityPresenter(getApplicationContext(), this);
+        convertImg(mSharedPreferences.getPreferences().getString("url", ""));
     }
 
     private void setupNavigation() {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_erased, R.id.nav_logout)
+                R.id.nav_home)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
@@ -106,5 +118,29 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(i);
         finish();
+    }
+
+    public void convertImg(String filename){
+        StorageReference reference = FirebaseStorage.getInstance().getReference("users/"+filename);
+        Log.e("References", reference.getPath());
+        try{
+            File localFile = File.createTempFile("tempFile", ".jpg");
+            reference.getFile(localFile).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    navHeaderBinding.imgUser.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "Erro", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Erro na procura da imagem", Toast.LENGTH_SHORT).show();
+            Log.e("Error", e.toString());
+        }
     }
 }

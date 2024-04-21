@@ -9,6 +9,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 public class FirebaseDomain {
@@ -18,6 +20,7 @@ public class FirebaseDomain {
     private FirebaseUser mUser;
     private FirebaseFirestore db;
     private Context context;
+    private StorageReference storageReference;
 
     public FirebaseDomain (Context context){
         FirebaseApp.initializeApp(context);
@@ -47,5 +50,11 @@ public class FirebaseDomain {
         if(currentUser != null){
             Toast.makeText(context, "Logado", Toast.LENGTH_SHORT).show();
         }
+    }
+    public StorageReference initializeStorageUser(String filename){
+        return this.storageReference = FirebaseStorage.getInstance().getReference("users/"+filename);
+    }
+    public StorageReference initializeStorageExerc(String filename){
+        return this.storageReference = FirebaseStorage.getInstance().getReference("exerc/"+filename);
     }
 }

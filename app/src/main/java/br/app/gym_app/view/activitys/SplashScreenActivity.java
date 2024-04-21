@@ -16,7 +16,6 @@ import br.app.gym_app.view.R;
 public class SplashScreenActivity extends AppCompatActivity {
 
     View container;
-    boolean finish = false;
     private SharedPreferencesManager mSharedPreferencesManager;
     private FirebaseDomain domain;
 
@@ -39,12 +38,12 @@ public class SplashScreenActivity extends AppCompatActivity {
                     Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                     ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(SplashScreenActivity.this);
                     startActivity(i,activityOptions.toBundle());
-                    finish = true;
+                    finish();
                 }else{
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(SplashScreenActivity.this);
                     startActivity(i,activityOptions.toBundle());
-                    finish = true;
+                    finish();
                 }
             }
         }, 3000);
@@ -55,13 +54,5 @@ public class SplashScreenActivity extends AppCompatActivity {
         mSharedPreferencesManager = new SharedPreferencesManager(getApplicationContext());
         domain = new FirebaseDomain(getApplicationContext());
         domain.setFirebaseUser(domain.getmAuth().getCurrentUser());
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(finish){
-            finish();
-        }
     }
 }
