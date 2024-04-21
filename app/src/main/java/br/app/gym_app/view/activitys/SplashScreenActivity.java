@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import br.app.gym_app.utils.SharedPreferencesManager;
 import br.app.gym_app.view.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
     View container;
     boolean finish = false;
+    private SharedPreferencesManager mSharedPreferencesManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,16 +31,26 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(SplashScreenActivity.this);
-                startActivity(i,activityOptions.toBundle());
-                finish = true;
+
+                //Verificação de usuário já logado
+                if(!mSharedPreferencesManager.getPreferences().getString("email", "").equals("")){
+                    Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                    ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(SplashScreenActivity.this);
+                    startActivity(i,activityOptions.toBundle());
+                    finish = true;
+                }else{
+                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                    ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(SplashScreenActivity.this);
+                    startActivity(i,activityOptions.toBundle());
+                    finish = true;
+                }
             }
         }, 3000);
     }
 
     public void init(){
         container = findViewById(R.id.content_splash);
+        mSharedPreferencesManager = new SharedPreferencesManager(getApplicationContext());
     }
 
     @Override

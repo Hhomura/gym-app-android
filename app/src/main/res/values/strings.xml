@@ -5,4 +5,26 @@
     <string name="password">senha</string>
     <string name="btn_login">Login</string>
     <string name="text_create_registry">Se não possui conta, crie uma clicando aqui!</string>
+    <string name="user_name_label">Nome do usuário</string>
+    <string name="email_label">email</string>
+    <string name="password_label">senha</string>
+    <string name="confirm_passowrd_label">confirme sua senha</string>
+    <string name="txt_btn_register">Concluir</string>
+    <string name="txt_btn_google">Google</string>
+    <string name="txt_tv_label_google">Criar conta usando conta do google</string>
+    <string name="hint_email_example">email@example.com</string>
+    <string name="hint_password">**********</string>
+    <string name="error_passwords">Senhas coincidem!</string>
+    <string name="preference_file_key">KEY_PREFERNCES</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
 </resources>
