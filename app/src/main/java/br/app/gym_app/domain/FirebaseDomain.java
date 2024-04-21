@@ -2,6 +2,7 @@ package br.app.gym_app.domain;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.Firebase;
 import com.google.firebase.FirebaseApp;
@@ -16,11 +17,13 @@ public class FirebaseDomain {
     private final FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private FirebaseFirestore db;
+    private Context context;
 
     public FirebaseDomain (Context context){
         FirebaseApp.initializeApp(context);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        this.context = context;
     }
 
     public FirebaseAuth getmAuth(){
@@ -37,5 +40,12 @@ public class FirebaseDomain {
 
     public FirebaseFirestore getFirebaseFireStore(){
         return this.db;
+    }
+
+    public void checkConnection() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            Toast.makeText(context, "Logado", Toast.LENGTH_SHORT).show();
+        }
     }
 }

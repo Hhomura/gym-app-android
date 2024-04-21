@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import br.app.gym_app.domain.FirebaseDomain;
 import br.app.gym_app.utils.SharedPreferencesManager;
 import br.app.gym_app.view.R;
 
@@ -17,6 +18,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     View container;
     boolean finish = false;
     private SharedPreferencesManager mSharedPreferencesManager;
+    private FirebaseDomain domain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
 
                 //Verificação de usuário já logado
-                if(!mSharedPreferencesManager.getPreferences().getString("email", "").equals("")){
+                if(domain.getmUser() != null){
                     Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                     ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(SplashScreenActivity.this);
                     startActivity(i,activityOptions.toBundle());
@@ -51,6 +53,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     public void init(){
         container = findViewById(R.id.content_splash);
         mSharedPreferencesManager = new SharedPreferencesManager(getApplicationContext());
+        domain = new FirebaseDomain(getApplicationContext());
+        domain.setFirebaseUser(domain.getmAuth().getCurrentUser());
     }
 
     @Override

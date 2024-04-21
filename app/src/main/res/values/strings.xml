@@ -27,4 +27,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_erased">Deletar conta</string>
+    <string name="menu_logout">Sair da Conta</string>
+    <string name="msg_logout">Deslogado com Sucesso</string>
 </resources>

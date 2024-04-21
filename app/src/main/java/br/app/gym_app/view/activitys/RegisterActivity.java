@@ -18,7 +18,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterView
     private ResgisterActivityPresenter mPresenter;
     private EditText nameUser, emailUser, passwordUser, confirmPasswordUser;
     private Button concludeButton;
-    private ImageView backButton;
+    private ImageView backButton, imgRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
