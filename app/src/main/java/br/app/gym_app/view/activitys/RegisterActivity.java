@@ -40,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterView
 
     public void init(){
         nameUser = findViewById(R.id.edt_name_user);
-        emailUser = findViewById(R.id.edt_email_user);
+        emailUser = findViewById(R.id.edt_observation_exercise);
         passwordUser = findViewById(R.id.edt_password_user);
         confirmPasswordUser = findViewById(R.id.edt_password_confirm);
         concludeButton = findViewById(R.id.btn_create_account);

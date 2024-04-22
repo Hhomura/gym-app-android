@@ -30,4 +30,12 @@
     <string name="menu_erased">Deletar conta</string>
     <string name="menu_logout">Sair da Conta</string>
     <string name="msg_logout">Deslogado com Sucesso</string>
+    <string name="inspiration_talk">Inicie sua rotina criando um novo ritmo</string>
+    <string name="training">Treino</string>
+    <string name="exercise">Exercícios</string>
+    <string name="exercise_name_label">Nome do exercício</string>
+    <string name="observations_label">Observações</string>
+    <string name="hint_observations">Observações sobre o exercício</string>
+    <string name="button_back_txt">voltar</string>
+    <string name="button_create">criar</string>
 </resources>

@@ -13,9 +13,14 @@
         android:theme="@style/Theme.Gyn_app"
         tools:targetApi="31">
         <activity
+            android:name=".activitys.ExerciseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activitys.TrainingActivity"
+            android:exported="false" />
+        <activity
             android:name=".activitys.HomeActivity"
-            android:exported="false"
-             />
+            android:exported="false" />
         <activity
             android:name=".activitys.RegisterActivity"
             android:exported="false" />
