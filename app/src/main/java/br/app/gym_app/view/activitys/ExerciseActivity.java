@@ -3,37 +3,47 @@ package br.app.gym_app.view.activitys;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.util.Arrays;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
 import java.util.List;
 
 import br.app.gym_app.model.Exercise;
 import br.app.gym_app.presenter.ExerciseActivityPresenter;
-import br.app.gym_app.presenter.callback.ExerciseCallback;
+import br.app.gym_app.utils.SharedPreferencesManager;
 import br.app.gym_app.view.R;
-import br.app.gym_app.view.adapters.ExercisieAdapter;
 import br.app.gym_app.view.interfaces.IExerciseView;
 
 public class ExerciseActivity extends AppCompatActivity implements IExerciseView {
 
-    private Button btnCreate;
+    private Button btnCreate, btnShowList;
     private ImageView btn_back, imgExercise;
     private EditText edt_name, edt_observation;
     private ExerciseActivityPresenter mPresenter;
-    private RecyclerView recyclerView;
+    private SharedPreferencesManager manager;
+    //private RecyclerView recyclerView;
+    boolean update;
     Uri imgUri;
     ActivityResultLauncher<String> getContentLauncher;
 
@@ -52,28 +62,31 @@ public class ExerciseActivity extends AppCompatActivity implements IExerciseView
         edt_name = findViewById(R.id.edt_exercise_name);
         edt_observation = findViewById(R.id.edt_observation_exercise);
         mPresenter = new ExerciseActivityPresenter(getApplicationContext(), this);
-        recyclerView = findViewById(R.id.rv_exercisie_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mPresenter.getAllExercisies(new ExerciseCallback() {
-            @Override
-            public void onExercisesLoaded(List<Exercise> exercises) {
-                recyclerView.setAdapter(new ExercisieAdapter(getApplicationContext(), exercises));
-            }
-        });
-        /*List<Exercise> exerciseList = Arrays.asList(
-                new Exercise(0, "Exercício 1", "00000", "Observações do exercício 1"),
-                new Exercise(0, "Exercício 1", "00000", "Observações do exercício 1"),
-                new Exercise(0, "Exercício 1", "00000", "Observações do exercício 1"),
-                new Exercise(0, "Exercício 1", "00000", "Observações do exercício 1"));
-         */
+        btnShowList = findViewById(R.id.btn_show_list_exercisie);
+        manager = new SharedPreferencesManager(getApplicationContext());
+        update = manager.getPreferences().getBoolean("update", false);
+        if(update){
+            btnShowList.setEnabled(false);
+            btnShowList.setVisibility(View.GONE);
+            btnCreate.setText("Atualizar");
+            edt_name.setText(manager.getPreferences().getString("nome_upd", ""));
+            edt_observation.setText((manager.getPreferences().getString("observacoes", "")));
+            showImg(imgExercise, manager.getPreferences().getString("url_upd", ""));
+        }
     }
 
     public void listeners(){
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.createExercise(edt_name.getText().toString(),
-                        edt_observation.getText().toString(), imgUri);
+                if(update){
+                    Log.e("Opa", "Opas");
+                    mPresenter.updateExercise(manager.getPreferences().getString("id_upd", ""),
+                            edt_name.getText().toString(), edt_observation.getText().toString(), imgUri);
+                }else{
+                    mPresenter.createExercise(edt_name.getText().toString(),
+                            edt_observation.getText().toString(), imgUri);
+                }
             }
         });
 
@@ -100,6 +113,13 @@ public class ExerciseActivity extends AppCompatActivity implements IExerciseView
                 Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(i);
                 finish();
+            }
+        });
+        btnShowList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), ExercisieListActivity.class);
+                startActivity(i);
             }
         });
     }
@@ -138,5 +158,42 @@ public class ExerciseActivity extends AppCompatActivity implements IExerciseView
     @Override
     public void initializeRecyclerView(List<Exercise> exerciseList) {
 
+    }
+
+    public void showImg(ImageView view, String filename){
+        StorageReference reference = FirebaseStorage.getInstance().getReference("exerc/"+filename);
+        Log.e("References", reference.getPath());
+        try{
+            File localFile = File.createTempFile("tempFile", ".jpg");
+            reference.getFile(localFile).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    view.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "Erro na Renderização do Update", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext().getApplicationContext(), "Erro na procura da imagem no update", Toast.LENGTH_SHORT).show();
+            Log.e("Error", e.toString());
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (update) {
+            manager.getEditor().putBoolean("update", false);
+            manager.getEditor().putString("id_upd", "");
+            manager.getEditor().putString("nome_upd", "");
+            manager.getEditor().putString("observacoes", "");
+            manager.getEditor().putString("url_upd", "");
+            manager.getEditor().apply();
+            finish();
+        }
     }
 }

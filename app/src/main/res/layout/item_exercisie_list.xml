@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/border_item"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -10,14 +12,16 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:gravity="center_horizontal"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/item_img_exercisie"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
             android:layout_marginTop="10dp"
             android:src="@drawable/logo_test"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
@@ -46,10 +50,11 @@
 
                 <TextView
                     android:id="@+id/item_name_exercisie"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nome Exercísio"
-                    android:textSize="22sp"
+                    android:text="Nome Exercício"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView

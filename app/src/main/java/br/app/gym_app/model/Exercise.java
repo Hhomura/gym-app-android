@@ -1,23 +1,23 @@
 package br.app.gym_app.model;
 
 public class Exercise {
-    private int id;
+    private String id;
     private String nome;
     private String url;
     private String observacoes;
 
-    public Exercise(int id, String nome, String url, String observacoes) {
+    public Exercise(String id, String nome, String url, String observacoes) {
         this.id = id;
         this.nome = nome;
         this.url = url;
         this.observacoes = observacoes;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

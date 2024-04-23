@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -24,14 +25,16 @@ import java.util.List;
 
 import br.app.gym_app.model.Exercise;
 import br.app.gym_app.view.R;
+import br.app.gym_app.view.adapters.interfaces.IOnItemClickListener;
 import br.app.gym_app.view.viewHolder.ExercisieViewHolder;
 
-public class ExercisieAdapter extends RecyclerView.Adapter<ExercisieViewHolder> {
+public class ExercisieListAdapter extends RecyclerView.Adapter<ExercisieViewHolder> {
 
     Context context;
     List<Exercise> exerciseList;
+    private IOnItemClickListener listener;
 
-    public ExercisieAdapter(Context context, List<Exercise> exerciseList) {
+    public ExercisieListAdapter(Context context, List<Exercise> exerciseList) {
         this.context = context;
         this.exerciseList = exerciseList;
     }
@@ -44,10 +47,33 @@ public class ExercisieAdapter extends RecyclerView.Adapter<ExercisieViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ExercisieViewHolder holder, int position) {
-        Log.e("AAA", "AAA");
         holder.name.setText(exerciseList.get(position).getNome());
         holder.observation.setText(exerciseList.get(position).getObservacoes());
-        showImg(holder.imgExercisie, exerciseList.get(position).getUrl());
+        Log.e("CCC", exerciseList.get(position).getUrl());
+        if(exerciseList.get(position).getUrl() != ""){
+            showImg(holder.imgExercisie, exerciseList.get(position).getUrl());
+        }else{
+            holder.imgExercisie.setImageResource(R.drawable.logo_test);
+        }
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if(listener != null) {
+                    listener.onItemLongClick(holder.getAbsoluteAdapterPosition());
+                    return true; // Retorna true para indicar que o evento foi consumido
+                }
+                return false;
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(listener != null){
+                    listener.onItemClick(holder.getAbsoluteAdapterPosition());
+                }
+            }
+        });
     }
 
     @Override
@@ -76,5 +102,9 @@ public class ExercisieAdapter extends RecyclerView.Adapter<ExercisieViewHolder> 
             Toast.makeText(context.getApplicationContext(), "Erro na procura da imagem no Adapter", Toast.LENGTH_SHORT).show();
             Log.e("Error", e.toString());
         }
+    }
+
+    public void onItemClickListener(IOnItemClickListener listener){
+        this.listener = listener;
     }
 }

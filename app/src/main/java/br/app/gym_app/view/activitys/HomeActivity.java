@@ -121,26 +121,30 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
     }
 
     public void convertImg(String filename){
-        StorageReference reference = FirebaseStorage.getInstance().getReference("users/"+filename);
-        Log.e("References", reference.getPath());
-        try{
-            File localFile = File.createTempFile("tempFile", ".jpg");
-            reference.getFile(localFile).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+        if(filename != ""){
+            StorageReference reference = FirebaseStorage.getInstance().getReference("users/"+filename);
+            Log.e("References", reference.getPath());
+            try{
+                File localFile = File.createTempFile("tempFile", ".jpg");
+                reference.getFile(localFile).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
 
-                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                    navHeaderBinding.imgUser.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getApplicationContext(), "Erro", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(), "Erro na procura da imagem", Toast.LENGTH_SHORT).show();
-            Log.e("Error", e.toString());
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        navHeaderBinding.imgUser.setImageBitmap(bitmap);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Erro", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }catch (Exception e){
+                Toast.makeText(getApplicationContext(), "Erro na procura da imagem", Toast.LENGTH_SHORT).show();
+                Log.e("Error", e.toString());
+            }
+        }else{
+            navHeaderBinding.imgUser.setImageResource(R.drawable.logo_test);
         }
     }
 }

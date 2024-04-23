@@ -38,4 +38,6 @@
     <string name="hint_observations">Observações sobre o exercício</string>
     <string name="button_back_txt">voltar</string>
     <string name="button_create">criar</string>
+    <string name="txt_list_exercisie">"Lista de Exercicios "</string>
+    <string name="show_list">Exibir lista</string>
 </resources>

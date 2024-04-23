@@ -32,6 +32,7 @@ import br.app.gym_app.domain.FirebaseDomain;
 import br.app.gym_app.model.Exercise;
 import br.app.gym_app.presenter.callback.ExerciseCallback;
 import br.app.gym_app.presenter.interfaces.IExercisePresenter;
+import br.app.gym_app.utils.SharedPreferencesManager;
 import br.app.gym_app.view.interfaces.IExerciseView;
 
 public class ExerciseActivityPresenter implements IExercisePresenter {
@@ -39,18 +40,21 @@ public class ExerciseActivityPresenter implements IExercisePresenter {
     private Context context;
     private IExerciseView view;
     private FirebaseDomain domain;
+    private SharedPreferencesManager manager;
     List<Exercise> list = new ArrayList<>();
 
     public ExerciseActivityPresenter(Context context, IExerciseView view) {
         this.context = context;
         this.view = view;
         domain = new FirebaseDomain(context);
+        manager = new SharedPreferencesManager(context);
     }
 
     @Override
     public void createExercise(String name, String observation, Uri uri) {
         String urlImg = idRandom();
-        Exercise exercise = new Exercise(idRandomNumber(), name, urlImg, observation);
+        Exercise exercise;
+        exercise = new Exercise(idRandom(), name, uri != null? urlImg: "", observation);
 
         domain.getFirebaseFireStore().collection("exercicios")
                 .document().set(exercise).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -84,39 +88,50 @@ public class ExerciseActivityPresenter implements IExercisePresenter {
     }
 
     @Override
-    public void updateExercise(String name, String observation, Uri uri) {
-
-    }
-
-    @Override
-    public void getAllExercisies(ExerciseCallback callback) {
-        List<Exercise> exerciseList = new ArrayList<>();
-        domain.getFirebaseFireStore().collection("exercicios").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    List<Exercise> exerciseList = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        // Processar documentos e adicionar à lista de exercícios
-                        String id = document.getId();
-                        long idInt = document.getLong("id");
-                        String nome = document.getString("nome");
-                        String observacoes = document.getString("observacoes");
-                        String url = document.getString("url");
-                        Exercise exercise = new Exercise((int) idInt, nome, url, observacoes);
-                        exerciseList.add(exercise);
+    public void updateExercise(String id, String name, String observation, Uri uri) {
+        Exercise exercise = new Exercise(idRandom(), name, manager.getPreferences().getString("url_upd", ""), observation);
+        domain.getFirebaseFireStore().collection("exercicios")
+                .document(id).set(exercise).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(uri != null){
+                            StorageReference reference = domain.initializeStorageExerc(manager.getPreferences().getString("url_upd", ""));
+                            reference.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                    view.onSucess("Atualizado");
+                                    manager.getEditor().putBoolean("update", false);
+                                    manager.getEditor().putString("id_upd", "");
+                                    manager.getEditor().putString("nome_upd", "");
+                                    manager.getEditor().putString("observacoes", "");
+                                    manager.getEditor().putString("url_upd", "");
+                                    manager.getEditor().apply();
+                                    view.onRedirectionLogin();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    view.onError("Falha na Atualização");
+                                }
+                            });
+                        }else{
+                            view.onSucess("Atualizado");
+                            manager.getEditor().putBoolean("update", false);
+                            manager.getEditor().putString("id_upd", "");
+                            manager.getEditor().putString("nome_upd", "");
+                            manager.getEditor().putString("observacoes", "");
+                            manager.getEditor().putString("url_upd", "");
+                            manager.getEditor().apply();
+                            view.onRedirectionLogin();
+                        }
                     }
-                    callback.onExercisesLoaded(exerciseList);
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                view.onError("Erro na busca das listas");
-            }
-        });
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "Erro", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
-
     public String idRandom(){
         return UUID.randomUUID().toString();
     }

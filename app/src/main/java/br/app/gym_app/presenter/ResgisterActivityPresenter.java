@@ -46,8 +46,13 @@ public class ResgisterActivityPresenter implements IResgisterPresenter {
                             Map<String, Object> userObject = new LinkedHashMap<>();
                             userObject.put("name", name);
                             userObject.put("email", email);
-                            userObject.put("url", fileImgName);
-                            createUser(userObject, email, fileImgName, uri);
+                            userObject.put("url", uri != null? fileImgName : "");
+
+                            if(uri != null)
+                                createUser(userObject, email, fileImgName, uri);
+                            else
+                                createUser(userObject, email, "", null);
+
                         } else {
                             view.onError("Erro na criação de Usuário!");
                         }
