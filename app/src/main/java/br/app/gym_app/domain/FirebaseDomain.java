@@ -48,7 +48,7 @@ public class FirebaseDomain {
     public void checkConnection() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            Toast.makeText(context, "Logado", Toast.LENGTH_SHORT).show();
+
         }
     }
     public StorageReference initializeStorageUser(String filename){

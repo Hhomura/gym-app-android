@@ -5,13 +5,13 @@ import com.google.firebase.Timestamp;
 import java.util.List;
 
 public class Training {
-    private int id;
+    private String id;
     private String nome;
     private String descricao;
     private Timestamp timestamp;
     private List<Exercise> exerciseList;
 
-    public Training(int id, String nome, String descricao, Timestamp timestamp, List<Exercise> exerciseList) {
+    public Training(String id, String nome, String descricao, Timestamp timestamp, List<Exercise> exerciseList) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -19,11 +19,11 @@ public class Training {
         this.exerciseList = exerciseList;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

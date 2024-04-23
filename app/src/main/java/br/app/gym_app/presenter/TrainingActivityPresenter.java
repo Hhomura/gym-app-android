@@ -2,20 +2,24 @@ package br.app.gym_app.presenter;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import br.app.gym_app.domain.FirebaseDomain;
 import br.app.gym_app.model.Exercise;
+import br.app.gym_app.model.Training;
 import br.app.gym_app.presenter.callback.ExerciseCallback;
 import br.app.gym_app.presenter.interfaces.ITrainingPresenter;
 import br.app.gym_app.view.interfaces.ITrainingActivityView;
@@ -25,6 +29,7 @@ public class TrainingActivityPresenter implements ITrainingPresenter {
     private Context context;
     ITrainingActivityView view;
     private FirebaseDomain domain;
+    List<Exercise> list = new ArrayList<>();
 
     public TrainingActivityPresenter(Context context, ITrainingActivityView view) {
         this.context = context;
@@ -57,5 +62,30 @@ public class TrainingActivityPresenter implements ITrainingPresenter {
                 view.onError("Erro na busca das listas");
             }
         });
+    }
+
+    public void addExercisie(Exercise exercise){
+        list.add(exercise);
+        Toast.makeText(context, list.size()+"", Toast.LENGTH_SHORT).show();
+    }
+
+    public void createTraining(String name, String descricao, Timestamp data){
+        Training training = new Training(idRandom(), name, descricao, data, list);
+        domain.getFirebaseFireStore().collection("training").document().set(training)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        view.onSuccess("Cadastrado");
+                        view.onRedirectionHome();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        view.onError("Erro");
+                    }
+                });
+    }
+    public String idRandom(){
+        return UUID.randomUUID().toString();
     }
 }
