@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Gym App</string>
-    <string name="title_splash">GYM APP</string>
+    <string name="app_name">Training +</string>
+    <string name="title_splash">Training +</string>
     <string name="email">email</string>
     <string name="password">senha</string>
     <string name="btn_login">Login</string>
@@ -40,4 +40,13 @@
     <string name="button_create">criar</string>
     <string name="txt_list_exercisie">"Lista de Exercicios "</string>
     <string name="show_list">Exibir lista</string>
+    <string name="txt_title_training">Treino</string>
+    <string name="training_name_label">Nome do treino</string>
+    <string name="ex_training">ex: Rotina Diurna</string>
+    <string name="description">Descrição</string>
+    <string name="date_training">Data do Treino</string>
+    <string name="add_training">Adicionar Treino</string>
+    <string name="show_training">Exibir treinos</string>
+    <string name="effect">Monitore e crie novas rotinas!\n</string>
+    <string name="add_img">Adicione uma imagem se preferir clicando aqui</string>
 </resources>

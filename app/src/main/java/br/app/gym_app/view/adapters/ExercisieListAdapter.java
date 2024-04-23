@@ -53,7 +53,7 @@ public class ExercisieListAdapter extends RecyclerView.Adapter<ExercisieViewHold
         if(exerciseList.get(position).getUrl() != ""){
             showImg(holder.imgExercisie, exerciseList.get(position).getUrl());
         }else{
-            holder.imgExercisie.setImageResource(R.drawable.logo_test);
+            holder.imgExercisie.setImageResource(R.drawable.logo_teste);
         }
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {

@@ -23,7 +23,7 @@
             android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:layout_marginTop="10dp"
-            android:src="@drawable/logo_test"
+            android:src="@drawable/logo_teste"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/linearLayout2"

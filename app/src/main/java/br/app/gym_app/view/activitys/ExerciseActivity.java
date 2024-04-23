@@ -59,7 +59,7 @@ public class ExerciseActivity extends AppCompatActivity implements IExerciseView
         btnCreate = findViewById(R.id.btn_create_exercise);
         btn_back = findViewById(R.id.imb_back_exercise);
         imgExercise = findViewById(R.id.img_exercise);
-        edt_name = findViewById(R.id.edt_exercise_name);
+        edt_name = findViewById(R.id.edt_training_description);
         edt_observation = findViewById(R.id.edt_observation_exercise);
         mPresenter = new ExerciseActivityPresenter(getApplicationContext(), this);
         btnShowList = findViewById(R.id.btn_show_list_exercisie);

@@ -6,11 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".activitys.LoginActivity">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back_effect_login"/>
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="250px"
         android:layout_height="250px"
-        android:src="@drawable/logo_test"
+        android:src="@drawable/logo_teste"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -22,6 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
+        android:textStyle="bold"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/email_login"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintHorizontal_bias="0.509"
@@ -32,7 +38,8 @@
     <EditText
         android:id="@+id/email_login"
         android:layout_width="500px"
-        android:layout_height="70px"
+        android:layout_height="80px"
+        android:background="@drawable/input_shpae"
         android:layout_marginTop="76dp"
         android:layout_marginEnd="52dp"
         android:inputType="textEmailAddress"
@@ -43,11 +50,14 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="@string/email"
         android:textSize="24px"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/email_login"
         app:layout_constraintStart_toStartOf="@+id/email_login"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
@@ -56,10 +66,11 @@
     <EditText
         android:id="@+id/password_login"
         android:layout_width="500px"
-        android:layout_height="70px"
+        android:layout_height="80px"
         android:layout_marginTop="28dp"
         android:inputType="textPassword"
         android:textSize="24px"
+        android:background="@drawable/input_shpae"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/email_login"
         app:layout_constraintHorizontal_bias="0.0"
@@ -72,6 +83,8 @@
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:text="@string/btn_login"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_enter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/password_login"
         app:layout_constraintHorizontal_bias="0.494"
@@ -86,6 +99,7 @@
         android:text="@string/text_create_registry"
         android:textSize="26px"
         android:textStyle="bold"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,11 +111,24 @@
         android:layout_height="wrap_content"
         android:text="@string/password"
         android:textSize="24px"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/password_login"
         app:layout_constraintEnd_toEndOf="@+id/password_login"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/password_login"
         app:layout_constraintTop_toBottomOf="@+id/email_login"
         app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="236dp"
+        android:text="@string/effect"
+        android:textSize="19sp"
+        android:textColor="@color/white"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/txt_register"
+        app:layout_constraintStart_toStartOf="@+id/txt_register"
+        app:layout_constraintTop_toBottomOf="@+id/txt_register" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

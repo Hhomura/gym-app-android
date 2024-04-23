@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
     }
 
     private void init() {
-        navHeaderBinding.imgUser.setImageResource(R.drawable.logo_test);
+        navHeaderBinding.imgUser.setImageResource(R.drawable.logo_teste);
         navHeaderBinding.txtNameUser.setText(mSharedPreferences.getPreferences().getString("name", ""));
         navHeaderBinding.txtEmailUser.setText(mSharedPreferences.getPreferences().getString("email", ""));
         setSupportActionBar(binding.appBarHome.toolbar);
@@ -144,7 +144,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                 Log.e("Error", e.toString());
             }
         }else{
-            navHeaderBinding.imgUser.setImageResource(R.drawable.logo_test);
+            navHeaderBinding.imgUser.setImageResource(R.drawable.logo_teste);
         }
     }
 }

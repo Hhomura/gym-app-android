@@ -16,11 +16,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.782">
-
         <ImageView
             android:layout_width="200px"
             android:layout_height="200px"
-            android:src="@drawable/logo_test"
+            android:src="@drawable/logo_teste"
             app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
